@@ -1,5 +1,5 @@
 model:
-  target: cdm.mdn.models.diffusion.ddpm.RDM
+  target: shield.generation.cdm.mdn.models.diffusion.ddpm.MDDM
   params:
     linear_start: 0.0015
     linear_end: 0.0195
@@ -14,7 +14,7 @@ model:
     conditioning_key: none
     parameterization: x0
     unet_config:
-      target: cdm.mdn.modules.diffusionmodules.latentmlp.SimpleMLP
+      target: shield.generation.cdm.mdn.modules.diffusionmodules.latentmlp.SimpleMLP
       params:
         in_channels: 192
         time_embed_dim: 192
@@ -26,3 +26,4 @@ model:
       params:
         proj_dim: 192
         pretrained_enc_withproj: True
+        pretrained_enc_path: null

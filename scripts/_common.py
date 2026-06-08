@@ -44,6 +44,17 @@ def load_config(path: str, manifest: str | None = None):
     return cfg
 
 
+def get_manifest(cfg, override: str | None = None) -> str | None:
+    if override:
+        return override
+    data = getattr(cfg, "data", None)
+    if data is not None:
+        manifest = getattr(data, "manifest", None)
+        if manifest:
+            return manifest
+    return getattr(cfg, "manifest", None)
+
+
 def validate_manifest(path: str | None) -> int:
     if not path:
         return 0
@@ -66,8 +77,9 @@ def print_config(cfg) -> None:
     print(OmegaConf.to_yaml(cfg, resolve=True))
 
 
-def release_placeholder(stage: str) -> None:
+def public_release_unavailable(stage: str) -> None:
     raise SystemExit(
-        f"{stage} entry point is defined, but full training internals and checkpoints "
-        "are pending public release approval."
+        f"{stage} entry point is defined for reproducibility packaging, but this public "
+        "release does not include patient data, trained checkpoints, or full training "
+        "runners. Use --dry-run to validate configuration and manifests."
     )

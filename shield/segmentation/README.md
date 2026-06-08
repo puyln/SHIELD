@@ -9,5 +9,6 @@ The final released implementation should expose:
 - Lesion ROI extraction from predicted masks.
 - Detection metrics including DSC, recall, precision, and IoU-thresholded localization.
 
-MONAI SwinUNETR is the main public reference implementation for this module.
+The manuscript configuration is recorded in `configs/segmentation.yaml`: Dice loss, AdamW, batch size 4, 3,000 epochs, and DSC/HD95/recall/precision evaluation.
 
+MONAI SwinUNETR is the main public reference implementation for this module.

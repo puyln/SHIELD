@@ -3,7 +3,7 @@
 import torch
 import numpy as np
 
-from cdm.mdn.modules.diffusionmodules.util import make_ddim_sampling_parameters, make_ddim_timesteps, noise_like
+from shield.generation.cdm.mdn.modules.diffusionmodules.util import make_ddim_sampling_parameters, make_ddim_timesteps, noise_like
 
 
 class DDIMSampler(object):

@@ -238,9 +238,9 @@ class ResBlock(TimestepBlock):
         # while len(emb_out.shape) < len(h.shape):
         #     emb_out = emb_out[..., None]
 
-        # rdm_rep_out = self.emb_layers_rdm(rdm_rep)
-        # while len(rdm_rep_out.shape) < len(h.shape):
-        #     rdm_rep_out = rdm_rep_out[..., None]
+        # mddm_rep_out = self.emb_layers_mddm(mddm_rep)
+        # while len(mddm_rep_out.shape) < len(h.shape):
+        #     mddm_rep_out = mddm_rep_out[..., None]
         
         h = self.out_layers(h)
         return self.skip_connection(x) + h

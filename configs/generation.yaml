@@ -18,9 +18,12 @@ model:
   prior: modality_guided_disentangled_diffusion
   generator: cross_conditional_generative_unet
   local_config: shield/generation/config.yaml
+  target_phases_trained_independently: true
 training:
-  batch_size: 1
-  max_steps: 100000
+  optimizer: adam
+  batch_size: 12
+  max_epochs: 100
   learning_rate: 0.0001
+  diffusion_timesteps: 1000
+  noise_scale: [0.0015, 0.0195]
   output_dir: outputs/generation
-

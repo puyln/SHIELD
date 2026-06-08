@@ -6,16 +6,20 @@ data:
 model:
   encoder: frozen_pretrained_encoder
   feature_head_dim: 16
+  classification_head: three_layer_mlp
   classifier_classes:
     - benign
     - malignant
 training:
-  batch_size: 8
-  max_epochs: 100
+  optimizer: adamw
+  feature_loss: multilabel_binary_cross_entropy
+  diagnosis_loss: binary_cross_entropy
+  loss_weights: [1.0, 1.0]
+  batch_size: 4
+  max_epochs: 1000
   learning_rate: 0.0001
   output_dir: outputs/diagnosis
 interpretability:
   methods:
     - shap
     - embedding_visualization
-

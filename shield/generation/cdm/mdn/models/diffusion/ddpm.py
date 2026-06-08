@@ -7,8 +7,8 @@ from functools import partial
 from tqdm import tqdm
 from torchvision.utils import make_grid
 
-from cdm.mdn.util import exists, default, count_params, instantiate_from_config
-from cdm.mdn.modules.diffusionmodules.util import make_beta_schedule, extract_into_tensor, noise_like
+from shield.generation.cdm.mdn.util import exists, default, count_params, instantiate_from_config
+from shield.generation.cdm.mdn.modules.diffusionmodules.util import make_beta_schedule, extract_into_tensor, noise_like
 
 
 __conditioning_keys__ = {'concat': 'c_concat',
@@ -307,8 +307,8 @@ class DDPM(nn.Module):
         return x
 
 
-class RDM(DDPM):
-    """main class"""
+class MDDM(DDPM):
+    """Modality-guided disentangled diffusion model for target-phase priors."""
     def __init__(self,
                  cond_stage_config,
                  class_cond=False,
@@ -391,11 +391,8 @@ class RDM(DDPM):
     
 
     def instantiate_pretrained_enc(self, config):
-        from models.segment_anything import build_sam_vit_b
-        from guided_diffusion.unet_raw import UNetModel
-        # self.pretrained_encoder = build_sam_vit_b(image_size=256, 
-        #                                           sam_checkpoint="./weight/sam-med2d_b.pth", 
-        #                                           encoder_adapter=True)
+        from shield.generation.guided_diffusion.unet_raw import UNetModel
+
         self.pretrained_encoder = UNetModel(image_size=240, in_channels=2,
                   model_channels=96, out_channels=2, 
                   num_res_blocks=1, attention_resolutions=[32,16,8],
@@ -413,45 +410,13 @@ class RDM(DDPM):
 
             model.load_state_dict(new_sd, strict=strict)
             
-            print(f"model parameters are loaded successed.")
+            print("model parameters loaded successfully.")
 
-        load_state_dict(self.pretrained_encoder, "/home/xingzhaohu/image_synthesis/logs_brats23/embedding_model/model/final_model.pt")
-        # load_state_dict(self.pretrained_encoder, "/home/xingzhaohu/image_synthesis/logs_brats23/embedding_model_norm-11/model/final_model.pt")
-        
-        # image_embeddings = model.image_encoder(t1)
+        weight_path = config.params.get("pretrained_enc_path", None)
+        if weight_path:
+            load_state_dict(self.pretrained_encoder, weight_path)
 
-        # replace the moco encoder to the medical sam encoder
-
-        
-
-        # self.pretrained_encoder = models_pretrained_enc.__dict__[config.params.pretrained_enc_arch](
-        #     proj_dim=config.params.get("proj_dim", 256))
-        # # load pre-trained encoder parameters
-        # if 'moco' in config.params.pretrained_enc_arch:
-        #     self.pretrained_encoder = models_pretrained_enc.load_pretrained_moco(self.pretrained_encoder,
-        #                                                                          config.params.pretrained_enc_path)
-        # elif 'dino' in config.params.pretrained_enc_arch:
-        #     self.pretrained_encoder = models_pretrained_enc.load_pretrained_dino(self.pretrained_encoder,
-        #                                                                          config.params.pretrained_enc_path)
-        # elif 'ibot' in config.params.pretrained_enc_arch:
-        #     self.pretrained_encoder = models_pretrained_enc.load_pretrained_ibot(self.pretrained_encoder,
-        #                                                                          config.params.pretrained_enc_path)
-        # elif 'mae' in config.params.pretrained_enc_arch:
-        #     self.pretrained_encoder = models_pretrained_enc.load_pretrained_mae(self.pretrained_encoder,
-        #                                                                         config.params.pretrained_enc_path)
-        # elif 'deit' in config.params.pretrained_enc_arch:
-        #     self.pretrained_encoder = models_pretrained_enc.load_pretrained_deit(self.pretrained_encoder,
-        #                                                                          config.params.pretrained_enc_path)
-        # else:
-        #     raise NotImplementedError
-
-        # self.pretrained_encoder
         self.pretrained_encoder.eval()
-        # self.pretrained_encoder.train = disabled_train
-        # try:
-        #     self.pretrained_enc_withproj = config.params.pretrained_enc_withproj
-        # except:
-        #     self.pretrained_enc_withproj = False
 
         for param in self.pretrained_encoder.parameters():
             param.requires_grad = False
@@ -953,3 +918,8 @@ class DiffusionWrapper(nn.Module):
             raise NotImplementedError()
 
         return out
+
+
+# Backward-compatible alias for checkpoints or configs created before the
+# public SHIELD naming cleanup.
+RDM = MDDM

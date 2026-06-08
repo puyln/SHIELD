@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-from cdm.mdn.modules.diffusionmodules.util import (
+from shield.generation.cdm.mdn.modules.diffusionmodules.util import (
     zero_module,
     timestep_embedding,
 )

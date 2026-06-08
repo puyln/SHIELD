@@ -13,10 +13,18 @@ data:
 model:
   encoder: shield_teacher_student_mae
   backbone: swin_transformer_3d
-  mask_ratio: 0.75
+  mask_ratio: 0.60
+  global_views:
+    count: 2
+    spatial_size: [160, 160, 160]
+    resolution_scale: [0.5, 1.0]
+  local_views:
+    count: 6
+    spatial_size: [96, 96, 96]
+    resolution_scale: [0.25, 0.5]
 training:
-  batch_size: 1
-  max_steps: 100000
-  learning_rate: 0.0001
+  optimizer: adamw
+  batch_size: 512
+  max_epochs: 1600
+  learning_rate: 0.01
   output_dir: outputs/pretraining
-

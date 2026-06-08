@@ -20,10 +20,16 @@ model:
     - liver
     - lesion
 training:
-  batch_size: 1
-  max_epochs: 300
-  learning_rate: 0.0001
+  optimizer: adamw
+  loss: dice
+  batch_size: 4
+  max_epochs: 3000
+  learning_rate: 0.0003
   output_dir: outputs/segmentation
 evaluation:
   iou_threshold: 0.3
-
+  metrics:
+    - dsc
+    - hd95
+    - recall
+    - precision

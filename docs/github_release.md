@@ -22,3 +22,11 @@ SHIELD
 
 Before making the repository public, confirm that no patient data, checkpoints, private paths, or unreleased manuscript files have been added.
 
+## Pre-Submission Checklist
+
+- Run `python -m compileall -q scripts shield`.
+- Run every command in the README with `--dry-run`.
+- Confirm repository-wide search returns no local home directories, cloud-sync paths, private training-log paths, patient names, hospital IDs, or checkpoint references outside documented example paths.
+- Confirm `git status --ignored --short` only lists ignored cache files such as `.DS_Store` or `__pycache__`.
+- Confirm `LICENSE`, `NOTICE.md`, and `THIRD_PARTY_NOTICES.md` are present.
+- Confirm README and project-page links match the public GitHub repository URL.

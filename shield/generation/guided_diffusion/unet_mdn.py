@@ -57,7 +57,7 @@ class TimestepBlock(nn.Module):
     """
 
     @abstractmethod
-    def forward(self, x, rdm_rep):
+    def forward(self, x, mddm_rep):
         """
         Apply the module to `x` given `emb` timestep embeddings.
         """
@@ -69,10 +69,10 @@ class TimestepEmbedSequential(nn.Sequential, TimestepBlock):
     support it as an extra input.
     """
 
-    def forward(self, x, rdm_rep):
+    def forward(self, x, mddm_rep):
         for layer in self:
             if isinstance(layer, TimestepBlock):
-                x = layer(x, rdm_rep)
+                x = layer(x, mddm_rep)
             else:
                 x = layer(x)
         return x
@@ -203,7 +203,7 @@ class ResBlock(TimestepBlock):
         #         2 * self.out_channels if use_scale_shift_norm else self.out_channels,
         #     ),
         # )
-        self.emb_layers_rdm = nn.Sequential(
+        self.emb_layers_mddm = nn.Sequential(
             nn.SiLU(),
             linear(
                 emb_channels,
@@ -229,7 +229,7 @@ class ResBlock(TimestepBlock):
         else:
             self.skip_connection = conv_nd(dims, channels, self.out_channels, 1)
 
-    def forward(self, x, rdm_rep):
+    def forward(self, x, mddm_rep):
         """
         Apply the block to a Tensor, conditioned on a timestep embedding.
 
@@ -238,10 +238,10 @@ class ResBlock(TimestepBlock):
         :return: an [N x C x ...] Tensor of outputs.
         """
         return checkpoint(
-            self._forward, (x, rdm_rep), self.parameters(), self.use_checkpoint
+            self._forward, (x, mddm_rep), self.parameters(), self.use_checkpoint
         )
 
-    def _forward(self, x, rdm_rep):
+    def _forward(self, x, mddm_rep):
         if self.updown:
             in_rest, in_conv = self.in_layers[:-1], self.in_layers[-1]
             h = in_rest(x)
@@ -255,17 +255,17 @@ class ResBlock(TimestepBlock):
         # while len(emb_out.shape) < len(h.shape):
         #     emb_out = emb_out[..., None]
 
-        rdm_rep_out = self.emb_layers_rdm(rdm_rep)
-        while len(rdm_rep_out.shape) < len(h.shape):
-            rdm_rep_out = rdm_rep_out[..., None]
+        mddm_rep_out = self.emb_layers_mddm(mddm_rep)
+        while len(mddm_rep_out.shape) < len(h.shape):
+            mddm_rep_out = mddm_rep_out[..., None]
 
         if self.use_scale_shift_norm:
             out_norm, out_rest = self.out_layers[0], self.out_layers[1:]
-            scale, shift = th.chunk(rdm_rep_out, 2, dim=1)
+            scale, shift = th.chunk(mddm_rep_out, 2, dim=1)
             h = out_norm(h) * (1 + scale) + shift
             h = out_rest(h)
         else:
-            h = h + rdm_rep_out
+            h = h + mddm_rep_out
             h = self.out_layers(h)
         return self.skip_connection(x) + h
 
@@ -489,7 +489,7 @@ class UNetModel(nn.Module):
         # )
 
         time_embed_dim = 192
-        self.rdm_embed = nn.Sequential(
+        self.mddm_embed = nn.Sequential(
             linear(192, time_embed_dim),
             nn.SiLU(),
             linear(time_embed_dim, time_embed_dim),
@@ -653,7 +653,7 @@ class UNetModel(nn.Module):
         self.middle_block.apply(convert_module_to_f32)
         self.output_blocks.apply(convert_module_to_f32)
 
-    def forward(self, x, rdm_rep ):
+    def forward(self, x, mddm_rep ):
         """
         Apply the model to an input batch.
 
@@ -670,7 +670,7 @@ class UNetModel(nn.Module):
         hs = []
         # emb = self.time_embed(timestep_embedding(timesteps, self.model_channels))
 
-        rdm_rep = self.rdm_embed(rdm_rep)
+        mddm_rep = self.mddm_embed(mddm_rep)
 
         h = x
         # h = x.type(self.dtype)
@@ -679,13 +679,13 @@ class UNetModel(nn.Module):
         #     h = th.cat([h, image], dim=1)
 
         for module in self.input_blocks:
-            h = module(h, rdm_rep)
+            h = module(h, mddm_rep)
             # print(h.dtype, "~~~~~~~")
             hs.append(h)
-        h = self.middle_block(h, rdm_rep)
+        h = self.middle_block(h, mddm_rep)
         for module in self.output_blocks:
             h = th.cat([h, hs.pop()], dim=1)
-            h = module(h, rdm_rep)
+            h = module(h, mddm_rep)
         # h = h.type(x.dtype)
 
         # print(h.dtype)
