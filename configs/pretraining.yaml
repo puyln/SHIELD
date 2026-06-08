@@ -1,0 +1,22 @@
+seed: 2026
+stage: pretraining
+data:
+  manifest: examples/example_manifest.jsonl
+  input_sequences:
+    - t2wi
+    - dwi_low
+    - dwi_high
+    - adc
+    - in_phase
+    - out_phase
+    - pre_t1
+model:
+  encoder: shield_teacher_student_mae
+  backbone: swin_transformer_3d
+  mask_ratio: 0.75
+training:
+  batch_size: 1
+  max_steps: 100000
+  learning_rate: 0.0001
+  output_dir: outputs/pretraining
+

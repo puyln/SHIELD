@@ -1,0 +1,2 @@
+{"case_id":"case_0001","nc_mri":{"t2wi":"images/case_0001/t2wi.nii.gz","dwi_low":"images/case_0001/dwi_low.nii.gz","dwi_high":"images/case_0001/dwi_high.nii.gz","adc":"images/case_0001/adc.nii.gz","in_phase":"images/case_0001/in_phase.nii.gz","out_phase":"images/case_0001/out_phase.nii.gz","pre_t1":"images/case_0001/pre_t1.nii.gz"},"targets":{"lap":"images/case_0001/lap.nii.gz","pvp":"images/case_0001/pvp.nii.gz","dp":"images/case_0001/dp.nii.gz","liver_mask":"labels/case_0001/liver.nii.gz","lesion_mask":"labels/case_0001/lesion.nii.gz","diagnosis":"malignant"}}
+

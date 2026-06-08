@@ -1,0 +1,21 @@
+seed: 2026
+stage: diagnosis
+data:
+  manifest: examples/example_manifest.jsonl
+  roi_source: predicted_or_manual_lesion_boxes
+model:
+  encoder: frozen_pretrained_encoder
+  feature_head_dim: 16
+  classifier_classes:
+    - benign
+    - malignant
+training:
+  batch_size: 8
+  max_epochs: 100
+  learning_rate: 0.0001
+  output_dir: outputs/diagnosis
+interpretability:
+  methods:
+    - shap
+    - embedding_visualization
+

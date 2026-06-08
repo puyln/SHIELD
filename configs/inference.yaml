@@ -1,0 +1,13 @@
+seed: 2026
+stage: inference
+checkpoints:
+  encoder: checkpoints/encoder.pt
+  generation: checkpoints/generation.pt
+  segmentation: checkpoints/segmentation.pt
+  diagnosis: checkpoints/diagnosis.pt
+outputs:
+  output_dir: outputs/inference
+  save_virtual_dce: true
+  save_masks: true
+  save_probabilities: true
+

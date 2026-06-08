@@ -1,0 +1,26 @@
+seed: 2026
+stage: generation
+data:
+  manifest: examples/example_manifest.jsonl
+  source_sequences:
+    - t2wi
+    - dwi_low
+    - dwi_high
+    - adc
+    - in_phase
+    - out_phase
+    - pre_t1
+  target_phases:
+    - lap
+    - pvp
+    - dp
+model:
+  prior: modality_guided_disentangled_diffusion
+  generator: cross_conditional_generative_unet
+  local_config: shield/generation/config.yaml
+training:
+  batch_size: 1
+  max_steps: 100000
+  learning_rate: 0.0001
+  output_dir: outputs/generation
+

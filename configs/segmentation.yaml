@@ -1,0 +1,29 @@
+seed: 2026
+stage: segmentation
+data:
+  manifest: examples/example_manifest.jsonl
+  input_sequences:
+    - t2wi
+    - dwi_low
+    - dwi_high
+    - adc
+    - in_phase
+    - out_phase
+    - pre_t1
+    - virtual_lap
+    - virtual_pvp
+    - virtual_dp
+model:
+  architecture: swin_unetr_style_decoder
+  output_labels:
+    - background
+    - liver
+    - lesion
+training:
+  batch_size: 1
+  max_epochs: 300
+  learning_rate: 0.0001
+  output_dir: outputs/segmentation
+evaluation:
+  iou_threshold: 0.3
+
