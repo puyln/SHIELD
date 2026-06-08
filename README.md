@@ -8,13 +8,13 @@ SHIELD is an explainable AI framework for HCC screening in high-risk populations
 - Liver and lesion detection/segmentation.
 - Lesion-level diagnosis with imaging-feature interpretation.
 
-This repository is structured as a public release package for the paper. Dataset files, clinical labels, trained checkpoints, and unreleased paper assets are not included.
+This repository is structured as a public project package for the SHIELD manuscript in preparation. Dataset files, clinical labels, trained checkpoints, and unreleased manuscript assets are not included.
 
 ## Repository Layout
 
 ```text
 SHIELD-code-project/
-  configs/                 Experiment configuration templates aligned with the manuscript
+  configs/                 Experiment configuration templates aligned with the current manuscript draft
   docs/                    Method notes, data format, and reference links
   examples/                Minimal example manifests
   scripts/                 Command-line entry points
@@ -29,10 +29,10 @@ SHIELD-code-project/
 
 The repository currently provides:
 
-- A cleaned project structure for public GitHub release.
+- A cleaned project structure for the public GitHub repository.
 - The cleaned generation/diffusion components from the manuscript workspace.
 - Configuration templates and command-line entry points for the SHIELD pipeline.
-- Documentation describing how the paper implementation relates to DINOv2 and MONAI SwinUNETR.
+- Documentation describing how the SHIELD implementation relates to DINOv2 and MONAI SwinUNETR.
 
 The following items are intentionally not included:
 
@@ -84,7 +84,7 @@ See [docs/data.md](docs/data.md) for details.
 
 ## Pipeline Commands
 
-The scripts define stable command-line interfaces for the paper pipeline:
+The scripts define stable command-line interfaces for the SHIELD pipeline:
 
 ```bash
 python scripts/train_pretraining.py --config configs/pretraining.yaml
@@ -104,7 +104,7 @@ The public package does not include patient data or trained checkpoints, so end-
 
 ## Manuscript-Aligned Settings
 
-The configuration files encode the major settings reported in the manuscript:
+The configuration files encode the major settings in the current manuscript draft:
 
 - Pretraining: teacher-student MAE, 60% masking, two global views, six local views, 1,600 epochs, AdamW, batch size 512.
 - Generation: phase-specific MDDM priors and CCG-UNet synthesis, 1,000 diffusion steps, Adam, batch size 12, 100 epochs.
@@ -123,14 +123,3 @@ See [docs/references.md](docs/references.md).
 ## License and Third-Party Code
 
 This repository is released under the MIT License. Portions of the generation module are adapted from public diffusion-model implementations; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [NOTICE.md](NOTICE.md) before reuse.
-
-## Citation
-
-```bibtex
-@article{shield2026hcc,
-  title  = {Explainable AI for HCC screening in high-risk populations using NC-MRI},
-  author = {SHIELD Investigators},
-  year   = {2026},
-  note   = {Manuscript under review}
-}
-```

@@ -1,6 +1,6 @@
 # Pretraining
 
-The paper pre-trains a hierarchical MRI encoder with a teacher-student masked autoencoder strategy. The public project keeps this module as an integration boundary so that the final encoder implementation can be connected to:
+The current manuscript draft pre-trains a hierarchical MRI encoder with a teacher-student masked autoencoder strategy. The public project keeps this module as an integration boundary so that the final encoder implementation can be connected to:
 
 - SHIELD's 3D MRI sequence inputs.
 - DINO-style feature consistency objectives.

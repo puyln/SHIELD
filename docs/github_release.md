@@ -20,7 +20,7 @@ Recommended repository name:
 SHIELD
 ```
 
-Before making the repository public, confirm that no patient data, checkpoints, private paths, or unreleased manuscript files have been added.
+Before making or updating the repository public, confirm that no patient data, checkpoints, private paths, or unreleased manuscript files have been added.
 
 ## Pre-Submission Checklist
 

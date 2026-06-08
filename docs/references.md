@@ -18,4 +18,4 @@ Parts of `shield/generation/guided_diffusion` follow OpenAI guided-diffusion and
 
 ## HCC Screening and MRI AI Context
 
-The SHIELD paper targets non-contrast MRI screening for high-risk populations, virtual contrast-enhanced MRI generation, automated lesion detection, and interpretable benign-malignant diagnosis. Public literature in this area includes AI-assisted abbreviated/non-contrast MRI and deep learning approaches for HCC diagnosis and surveillance.
+The SHIELD manuscript targets non-contrast MRI screening for high-risk populations, virtual contrast-enhanced MRI generation, automated lesion detection, and interpretable benign-malignant diagnosis. Public literature in this area includes AI-assisted abbreviated/non-contrast MRI and deep learning approaches for HCC diagnosis and surveillance.
