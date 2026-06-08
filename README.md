@@ -4,13 +4,13 @@ Code project for **SHIELD: Screening system for Hepatocellular carcinoma with In
 
 SHIELD is an explainable AI framework for HCC screening in high-risk populations using non-contrast MRI. The system is organized around three tasks:
 
-- Virtual DCE-MRI generation from NC-MRI.
-- Liver and lesion detection/segmentation.
-- Lesion-level diagnosis with imaging-feature interpretation.
+1. 🧬 Virtual DCE-MRI generation from NC-MRI.
+2. 🎯 Liver and lesion detection/segmentation.
+3. 🔎 Lesion-level diagnosis with imaging-feature interpretation.
 
 This repository is structured as a public project package for the SHIELD manuscript in preparation. Dataset files, clinical labels, trained checkpoints, and unreleased manuscript assets are not included.
 
-## Repository Layout
+## 1. Repository Layout
 
 ```text
 SHIELD-code-project/
@@ -25,23 +25,23 @@ SHIELD-code-project/
     diagnosis/             ROI diagnosis and interpretability interface
 ```
 
-## Current Release Status
+## 2. Current Release Status
 
-The repository currently provides:
+✅ The repository currently provides:
 
 - A cleaned project structure for the public GitHub repository.
 - The cleaned generation/diffusion components from the manuscript workspace.
 - Configuration templates and command-line entry points for the SHIELD pipeline.
 - Documentation describing how the SHIELD implementation relates to DINOv2 and MONAI SwinUNETR.
 
-The following items are intentionally not included:
+⚠️ The following items are intentionally not included:
 
 - Patient data or imaging files.
 - Model checkpoints.
 - Final training logs.
 - Site-specific private paths or clinical identifiers.
 
-## Installation
+## 3. Installation
 
 Create a Python environment and install the core dependencies:
 
@@ -53,7 +53,7 @@ pip install -r requirements.txt
 
 For full 3D medical imaging experiments, install MONAI and a CUDA-enabled PyTorch build matching your system.
 
-## Data Format
+## 4. Data Format
 
 Prepare a JSONL manifest where each line describes one case:
 
@@ -82,7 +82,7 @@ Prepare a JSONL manifest where each line describes one case:
 
 See [docs/data.md](docs/data.md) for details.
 
-## Pipeline Commands
+## 5. Pipeline Commands
 
 The scripts define stable command-line interfaces for the SHIELD pipeline:
 
@@ -102,7 +102,7 @@ python scripts/train_generation.py --config configs/generation.yaml --dry-run
 
 The public package does not include patient data or trained checkpoints, so end-to-end training and inference require the corresponding private dataset and checkpoint files to be supplied by the user.
 
-## Manuscript-Aligned Settings
+## 6. Manuscript-Aligned Settings
 
 The configuration files encode the major settings in the current manuscript draft:
 
@@ -111,7 +111,7 @@ The configuration files encode the major settings in the current manuscript draf
 - Segmentation: Dice loss, AdamW, batch size 4, 3,000 epochs, DSC/HD95/recall/precision evaluation.
 - Diagnosis: frozen encoder with a three-layer MLP head, 16 LI-RADS-related feature outputs, benign-malignant classification, AdamW, batch size 4, 1,000 epochs.
 
-## External References
+## 7. External References
 
 SHIELD was organized with reference to:
 
@@ -120,6 +120,6 @@ SHIELD was organized with reference to:
 
 See [docs/references.md](docs/references.md).
 
-## License and Third-Party Code
+## 8. License and Third-Party Code
 
 This repository is released under the MIT License. Portions of the generation module are adapted from public diffusion-model implementations; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [NOTICE.md](NOTICE.md) before reuse.
